@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "musicmapp": {
+      "type": "streamable-http",
+      "url": "https://mcp.musicmapp.com.ar/mcp",
+      "extensions": { "com.openai": { "auth": { "type": "none" } } }
+    }
+  }
+}

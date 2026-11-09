@@ -1,0 +1,9 @@
+{
+  "name": "musicmapp",
+  "version": "0.1.0",
+  "description": "Search public concerts and cultural events by artist, genre, date and location.",
+  "author": { "name": "Musicmapp", "url": "https://musicmapp.com.ar" },
+  "homepage": "https://musicmapp.com.ar",
+  "repository": "https://github.com/fedegonzalezit/musicmapp-claude-plugin",
+  "mcpServers": "./.mcp.json"
+}

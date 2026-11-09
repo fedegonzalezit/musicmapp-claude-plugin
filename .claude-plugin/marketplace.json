@@ -1,0 +1,6 @@
+{
+  "name": "musicmapp",
+  "owner": { "name": "Musicmapp", "url": "https://musicmapp.com.ar" },
+  "description": "Discover public music and cultural events from Musicmapp (Argentina and Bolivia).",
+  "plugins": [{ "name": "musicmapp", "source": "./plugins/musicmapp", "description": "Discover public music and cultural events." }]
+}

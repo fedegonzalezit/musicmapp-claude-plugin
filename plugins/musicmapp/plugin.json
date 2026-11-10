@@ -1,20 +1,33 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "musicmapp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Find public concerts, parties, theatre and cultural events by artist, genre, date and location, with links to Musicmapp.",
-  "author": { "name": "Musicmapp", "url": "https://musicmapp.com.ar" },
+  "author": {
+    "name": "Musicmapp",
+    "url": "https://musicmapp.com.ar"
+  },
   "homepage": "https://musicmapp.com.ar",
   "repository": "https://github.com/fedegonzalezit/musicmapp-claude-plugin",
-  "keywords": ["events", "concerts", "music", "culture", "Argentina", "Bolivia"],
+  "keywords": [
+    "events",
+    "concerts",
+    "music",
+    "culture",
+    "Argentina",
+    "Bolivia"
+  ],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "Musicmapp",
-        "shortDescription": "Discover music and cultural events",
+        "shortDescription": "Find music and cultural events",
         "longDescription": "Search public events by artist, genre, neighborhood, local date, event type and free admission. Read current event details and open the original Musicmapp page. Public search needs no Musicmapp account. Coverage depends on events available in Musicmapp; ticket availability, timezone and currency are not always known.",
         "developerName": "Musicmapp",
-        "capabilities": ["Search public events", "Read event details"],
+        "capabilities": [
+          "Search public events",
+          "Read event details"
+        ],
         "websiteURL": "https://musicmapp.com.ar",
         "privacyPolicyURL": "https://musicmapp.com.ar/privacidad",
         "termsOfServiceURL": "https://musicmapp.com.ar/terminos",
@@ -22,25 +35,66 @@
           "Find free concerts in Buenos Aires this weekend.",
           "Find jazz events in Palermo.",
           "What cultural events are happening in Santa Cruz de la Sierra?"
-        ]
+        ],
+        "category": "Entertainment",
+        "supportURL": "https://github.com/fedegonzalezit/musicmapp-claude-plugin/issues",
+        "logo": "./assets/logo.svg",
+        "composerIcon": "./assets/logo.svg"
       },
       "review": {
         "commerce": false,
         "commerce_description": "Read-only public event discovery. No bookings, payments or ticket availability verification.",
         "test_cases": {
           "positive": [
-            { "description": "Search by artist or genre", "prompt": "Find jazz events in Palermo on Musicmapp.", "tools_triggered": "search_events", "expected_behavior": "Return matching public events with Musicmapp links, or state that no matches were found." },
-            { "description": "Browse by date without keywords", "prompt": "Find free events in Buenos Aires this weekend.", "tools_triggered": "search_events", "expected_behavior": "Resolve the local date range and location, filter free_only, and preserve unknown timezone and currency." },
-            { "description": "Read an event", "prompt": "Show the details of the first Musicmapp event you found.", "tools_triggered": "get_event", "expected_behavior": "Use the returned event UUID and include the canonical URL and cancellation status." },
-            { "description": "Discover supported filters", "prompt": "What event types can I search for on Musicmapp?", "tools_triggered": "get_search_filters", "expected_behavior": "List active event types; do not claim those types currently have events." },
-            { "description": "Paginate results", "prompt": "Show more events matching the same search.", "tools_triggered": "search_events", "expected_behavior": "Reuse the same filters and next_cursor when present." }
+            {
+              "description": "Search by artist or genre",
+              "prompt": "Find jazz events in Palermo on Musicmapp.",
+              "tools_triggered": "search_events",
+              "expected_behavior": "Use Palermo, Buenos Aires as an approximate area with radius_km and jazz as genre or text. Return matching public event links or explain no matches after a broader location/date search."
+            },
+            {
+              "description": "Browse by date without keywords",
+              "prompt": "Find free events in Buenos Aires this weekend.",
+              "tools_triggered": "search_events",
+              "expected_behavior": "Resolve the venue-local weekend date range and approximate Buenos Aires area, set free_only=true, and preserve unknown timezone and currency."
+            },
+            {
+              "description": "Read an event",
+              "prompt": "Show the details of the first Musicmapp event you found.",
+              "tools_triggered": "get_event",
+              "expected_behavior": "Use the returned event UUID and include the canonical URL and cancellation status."
+            },
+            {
+              "description": "Discover supported filters",
+              "prompt": "What event types can I search for on Musicmapp?",
+              "tools_triggered": "get_search_filters",
+              "expected_behavior": "List active event types; do not claim those types currently have events."
+            },
+            {
+              "description": "Paginate results",
+              "prompt": "Show more events matching the same search.",
+              "tools_triggered": "search_events",
+              "expected_behavior": "Reuse the same filters and next_cursor when present."
+            }
           ],
           "negative": [
-            { "description": "Private access is unsupported", "prompt": "Show me private invitation-only parties from other users." },
-            { "description": "Payments are unsupported", "prompt": "Buy me two tickets to that event." },
-            { "description": "Modification is unsupported", "prompt": "Delete that event from Musicmapp." }
+            {
+              "description": "Private access is unsupported. Only approved public events are accessible. Explain this limit and do not reveal or invent private events.",
+              "prompt": "Show me private invitation-only parties from other users."
+            },
+            {
+              "description": "Payments are unsupported. Purchases and bookings are unsupported. Explain this limit and offer the public event link without claiming ticket availability.",
+              "prompt": "Buy me two tickets to that event."
+            },
+            {
+              "description": "Modification is unsupported. The integration is read-only. Explain this limit and do not claim that an event was deleted.",
+              "prompt": "Delete that event from Musicmapp."
+            }
           ]
         }
+      },
+      "publication": {
+        "release_notes": "Prepare public event search, event details and search filters for the OpenAI plugin directory."
       }
     }
   }
